@@ -3,25 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login / Register</title>
     <link rel="stylesheet" href="./login.css" />
 </head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
-        <form>
-            <label for="email">Email</label>
-            <input id="email" type="text" placeholder="abc@gmail.com" autocomplete="username">
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="************" autocomplete="current-password">
-            <button type="submit">Login</button>
-            <div class="form-footer">
-        Not Registered ? <a href="./register.html">Register</a>
-      </div>
+        <h1 id="formTitle">Login</h1>
+        <form onsubmit="handleSubmit(event)">
+            <!-- Register Only Fields -->
+            <div id="registerFields" class="hidden">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Your Name" autocomplete="name">
+                <span id="nameError" class="error"></span>
 
+                <label for="phone">Phone Number</label>
+                <input id="phone" type="tel" placeholder="10 digit phone" autocomplete="tel">
+                <span id="phoneError" class="error"></span>
+            </div>
+
+            <!-- Common Fields -->
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="abc@gmail.com" autocomplete="email">
+            <span id="emailError" class="error"></span>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="At least 6 characters" autocomplete="current-password">
+            <span id="passwordError" class="error"></span>
+
+            <button type="submit" id="submitBtn">Login</button>
         </form>
 
+        <div class="form-footer" id="toggleText">
+            Don't have an account?
+            <span onclick="toggleForm()" style="cursor: pointer; color: blue; text-decoration: underline;">
+                Register here
+            </span>
+        </div>
     </div>
-    
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+
+    <script src="./script.js"></script>
 </body>
 </html>
