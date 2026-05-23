@@ -36,9 +36,11 @@ exports.registerUser = async (req, res) => {
             user,
         });
     } catch (error) {
+        console.error("Register error:", error);
         res.status(500).json({
             success: false,
             message: "Server error",
+            error: error.message
         });
     }
 };
@@ -82,9 +84,11 @@ exports.loginUser = async (req, res) => {
             user,
         });
     } catch (error) {
+        console.error("Login error:", error);
         res.status(500).json({
             success: false,
             message: "Server error",
+            error: error.message
         });
     }
 };

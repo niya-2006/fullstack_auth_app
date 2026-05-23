@@ -1,5 +1,5 @@
 // BACKEND API URL
-const BASE_URL = "https://fullstack-auth-app-nine.vercel.app/api/v1/users";
+const BASE_URL = "http://localhost:5000/api/v1/users";
 
 // FORM TYPE
 let isLogin = true;
@@ -131,6 +131,7 @@ async function handleSubmit(event) {
             localStorage.setItem("token", result.token);
             alert(result.message);
             console.log(result);
+            window.location.href = "./index.html";
             window.location.href = "./index.html";
         }
         // REGISTER API
