@@ -1,5 +1,6 @@
-// BACKEND API URL
-const BASE_URL = "http://localhost:5000/api/v1/users";
+﻿
+
+const BASE_URL = "https://fullstack-auth-app-vlw1.vercel.app/api/v1/users";
 
 // FORM TYPE
 let isLogin = true;
@@ -7,6 +8,7 @@ let isLogin = true;
 // TOGGLE FORM
 function toggleForm() {
     isLogin = !isLogin;
+
     const formTitle = document.getElementById("formTitle");
     const submitBtn = document.getElementById("submitBtn");
     const toggleText = document.getElementById("toggleText");
@@ -17,27 +19,33 @@ function toggleForm() {
     if (isLogin) {
         formTitle.innerText = "Login";
         submitBtn.innerText = "Login";
+
         registerFields.classList.add("hidden");
+
         toggleText.innerHTML = `
             Don't have an account?
-            <span onclick="toggleForm()" style="cursor: pointer; color: blue; text-decoration: underline;">
+            <span onclick="toggleForm()" 
+            style="cursor:pointer; color:blue; text-decoration:underline;">
                 Register here
             </span>
         `;
     } else {
         formTitle.innerText = "Register";
         submitBtn.innerText = "Register";
+
         registerFields.classList.remove("hidden");
+
         toggleText.innerHTML = `
             Already have an account?
-            <span onclick="toggleForm()" style="cursor: pointer; color: blue; text-decoration: underline;">
+            <span onclick="toggleForm()" 
+            style="cursor:pointer; color:blue; text-decoration:underline;">
                 Sign In
             </span>
         `;
     }
 }
 
-// CLEAR ERROR MESSAGES
+// CLEAR ERRORS
 function clearErrors() {
     document.getElementById("nameError").innerText = "";
     document.getElementById("phoneError").innerText = "";
@@ -45,43 +53,66 @@ function clearErrors() {
     document.getElementById("passwordError").innerText = "";
 }
 
-// VALIDATE FORM
+// VALIDATION
 function validateForm(data) {
+
     let isValid = true;
+
     clearErrors();
 
-    // NAME VALIDATION
+    // NAME
     if (!isLogin) {
+
         if (!data.name.trim()) {
-            document.getElementById("nameError").innerText = "Name is required";
+            document.getElementById("nameError").innerText =
+                "Name is required";
             isValid = false;
         }
 
-        // PHONE VALIDATION
+        // PHONE
         if (!data.phone.trim()) {
-            document.getElementById("phoneError").innerText = "Phone number is required";
+            document.getElementById("phoneError").innerText =
+                "Phone number is required";
             isValid = false;
+
         } else if (!/^[0-9]{10}$/.test(data.phone)) {
-            document.getElementById("phoneError").innerText = "Phone must be 10 digits";
+
+            document.getElementById("phoneError").innerText =
+                "Phone must be 10 digits";
+
             isValid = false;
         }
     }
 
-    // EMAIL VALIDATION
+    // EMAIL
     if (!data.email.trim()) {
-        document.getElementById("emailError").innerText = "Email is required";
+
+        document.getElementById("emailError").innerText =
+            "Email is required";
+
         isValid = false;
+
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-        document.getElementById("emailError").innerText = "Invalid email format";
+
+        document.getElementById("emailError").innerText =
+            "Invalid email format";
+
         isValid = false;
     }
 
-    // PASSWORD VALIDATION
+    // PASSWORD
     if (!data.password.trim()) {
-        document.getElementById("passwordError").innerText = "Password is required";
+
+        document.getElementById("passwordError").innerText =
+            "Password is required";
+
         isValid = false;
+
     } else if (data.password.length < 6) {
-        document.getElementById("passwordError").innerText = "Password must be at least 6 characters";
+
+        document.getElementById("passwordError").innerText =
+            "Password must be at least 6 characters";
+
         isValid = false;
     }
 
@@ -90,10 +121,11 @@ function validateForm(data) {
 
 // HANDLE SUBMIT
 async function handleSubmit(event) {
+
     event.preventDefault();
 
     try {
-        // GET INPUT VALUES
+
         const data = {
             name: document.getElementById("name").value,
             phone: document.getElementById("phone").value,
@@ -103,17 +135,22 @@ async function handleSubmit(event) {
 
         // VALIDATE
         const valid = validateForm(data);
+
         if (!valid) {
             return;
         }
 
-        // LOGIN API
+        // LOGIN
         if (isLogin) {
+
             const response = await fetch(`${BASE_URL}/login`, {
+
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     email: data.email,
                     password: data.password
@@ -127,20 +164,24 @@ async function handleSubmit(event) {
                 return;
             }
 
-            // STORE TOKEN
             localStorage.setItem("token", result.token);
+
             alert(result.message);
-            console.log(result);
-            window.location.href = "./index.html";
+
             window.location.href = "./index.html";
         }
-        // REGISTER API
+
+        // REGISTER
         else {
+
             const response = await fetch(`${BASE_URL}/register`, {
+
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify(data)
             });
 
@@ -152,13 +193,14 @@ async function handleSubmit(event) {
             }
 
             alert(result.message);
-            console.log(result);
-            // SWITCH TO LOGIN
+
             toggleForm();
         }
+
     } catch (error) {
+
         console.log("Error:", error);
-        console.log("Error message:", error.message);
+
         alert("Something went wrong: " + error.message);
     }
 }
