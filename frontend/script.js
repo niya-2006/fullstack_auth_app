@@ -156,7 +156,8 @@ async function handleSubmit(event) {
             toggleForm();
         }
     } catch (error) {
-        console.log(error);
-        alert("Something went wrong");
+        console.log("Error:", error);
+        console.log("Error message:", error.message);
+        alert("Something went wrong: " + error.message);
     }
 }
